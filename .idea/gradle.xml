@@ -8,6 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/api-shop" />
+            <option value="$PROJECT_DIR$/module-core" />
           </set>
         </option>
       </GradleProjectSettings>

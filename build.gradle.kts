@@ -8,11 +8,6 @@ plugins {
     id("jacoco")
 }
 
-val querydslDir = "**/src/main/generated/**"
-val bootJar: BootJar by tasks
-bootJar.enabled = false
-
-
 java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
@@ -27,6 +22,8 @@ allprojects {
 }
 
 subprojects{
+    val querydslDir = "**/src/main/generated/**"
+
     apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
@@ -46,9 +43,33 @@ subprojects{
     dependencies {
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+
+        compileOnly("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom(configurations.annotationProcessor.get())
+        }
     }
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+project(":api-shop") {
+    dependencies {
+        implementation(project(":module-core"))
+    }
+}
+
+project(":module-core") {
+
+    val jar: Jar by tasks
+    val bootJar: BootJar by tasks
+
+    bootJar.enabled = false
+    jar.enabled = true
 }
