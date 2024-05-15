@@ -1,16 +1,36 @@
 package com.ptu.domain.member.domain;
 
-import com.ptu.common.model.BaseEntity;
-import jakarta.persistence.Entity;
-import lombok.AccessLevel;
+import com.ptu.common.entity.BaseEntity;
+import com.ptu.common.model.BaseDomain;
+import com.ptu.domain.member.entity.MemberEntity;
+import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseEntity {
+public class Member extends BaseDomain {
 
-  private String name;
-  private String mobile;
+  private final MemberRole role;
+
+  @Builder // test only
+  private Member(
+      final String createId,
+      final LocalDateTime createdAt,
+      final String updateId,
+      final LocalDateTime updatedAt,
+      final LocalDateTime deletedAt,
+      final Long id,
+      final MemberRole role) {
+    super(createId, createdAt, updateId, updatedAt, deletedAt, id);
+    this.role = role;
+  }
+
+  private Member(final BaseEntity baseEntity, final MemberRole role) {
+    super(baseEntity);
+    this.role = role;
+  }
+
+  public static Member of(final MemberEntity entity) {
+    return new Member(entity, entity.getRole());
+  }
 }
