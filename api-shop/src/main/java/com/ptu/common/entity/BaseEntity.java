@@ -1,4 +1,4 @@
-package com.ptu.common.model;
+package com.ptu.common.entity;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
