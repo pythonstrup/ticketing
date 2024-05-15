@@ -1,0 +1,76 @@
+spring:
+  profiles:
+    group:
+      local: local,common
+      dev: server,common
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: ptu
+    password: 1234
+    url: jdbc:log4jdbc:mysql://localhost:3308/ptu?serverTimezone=UTC&characterEncoding=UTF-8
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 5000
+      idle-timeout: 10000
+      validation-timeout: 5000
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+---
+spring:
+  config:
+    activate:
+      on-profile: server
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ptu
+    password: 1234
+    url: jdbc:mysql://서버주소/ptu?serverTimezone=UTC&characterEncoding=UTF-8
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 5000
+      idle-timeout: 10000
+      validation-timeout: 5000
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+
+  application:
+    name: api-shop
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+api:
+  v1: /api/v1
+
+token:
+  secret:
+    key: kgwgwgmewiwjt023u52385093592uiognmdsguyh349u8jtkggih98u5293mk3626u0gu0jsidkgm4pojpmkdmfg
+
+# Swagger
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    url: /docs/openapi3.yaml
+    path: /docs/swagger
