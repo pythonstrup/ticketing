@@ -28,7 +28,7 @@ public class MemberSocialLoginEntity extends BaseEntity {
   @JoinColumn(name = "member_id")
   private MemberEntity member;
 
-  @OneToOne(fetch = LAZY, mappedBy = "memberSocialLogin")
+  @OneToOne(fetch = LAZY, mappedBy = "socialLogin")
   private MemberPasswordEntity password;
 
   private String username;

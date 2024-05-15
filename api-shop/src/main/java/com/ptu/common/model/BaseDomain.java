@@ -1,13 +1,11 @@
 package com.ptu.common.model;
 
 import com.ptu.common.entity.BaseEntity;
-import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Getter;
 
 @Getter
-@MappedSuperclass
 public abstract class BaseDomain extends TimeDomain {
 
   private final Long id;
