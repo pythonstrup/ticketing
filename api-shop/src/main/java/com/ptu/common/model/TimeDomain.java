@@ -21,7 +21,7 @@ public abstract class TimeDomain {
 
   private final LocalDateTime deletedAt;
 
-  public TimeDomain(
+  protected TimeDomain(
       final String createId,
       final LocalDateTime createdAt,
       final String updateId,

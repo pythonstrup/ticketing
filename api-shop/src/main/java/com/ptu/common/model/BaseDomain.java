@@ -12,7 +12,7 @@ public abstract class BaseDomain extends TimeDomain {
 
   private final Long id;
 
-  public BaseDomain(
+  protected BaseDomain(
       final String createId,
       final LocalDateTime createdAt,
       final String updateId,
@@ -23,7 +23,7 @@ public abstract class BaseDomain extends TimeDomain {
     this.id = id;
   }
 
-  public BaseDomain(final BaseEntity baseEntity) {
+  protected BaseDomain(final BaseEntity baseEntity) {
     super(
         baseEntity.getCreateId(),
         baseEntity.getCreatedAt(),
