@@ -7,4 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {}
+public class MemberService {
+
+  private final MemberDataAccessService memberDataAccessService;
+}
