@@ -19,6 +19,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     /**
+     * QueryLog
+     */
+    implementation("p6spy:p6spy:3.9.1")
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1")
+
+    /**
      * JWTs
      */
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")

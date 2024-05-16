@@ -1,0 +1,27 @@
+Configuration:
+  properties:
+    property:
+      - name: LOG_DIR
+        value: logs/
+      - name: LOG_PATTERN
+        value: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+      - name: PROJECT_BASE_PACKAGE
+        value: com.ptu
+      - name: APPLICATION_NAME
+        value: api-shop
+
+  appenders:
+    Console:
+      name: console
+      target: SYSTEM_OUT
+      PatternLayout:
+        charset: UTF-8
+        pattern: "${LOG_PATTERN}"
+
+  Loggers:
+    logger:
+      - name: "${PROJECT_BASE_PACKAGE}"
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          ref: console

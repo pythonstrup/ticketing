@@ -11,10 +11,10 @@ spring:
       on-profile: local
 
   datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
-    url: jdbc:log4jdbc:mysql://localhost:3308/ticketing?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:p6spy:mysql://localhost:3308/ticketing?serverTimezone=UTC&characterEncoding=UTF-8
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
@@ -40,6 +40,11 @@ spring:
               - name
               - account_email
               - phone_number
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 ---
 spring:
@@ -77,6 +82,11 @@ spring:
               - name
               - account_email
               - phone_number
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
 
 ---
 spring:
