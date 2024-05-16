@@ -5,6 +5,7 @@ import static jakarta.persistence.FetchType.LAZY;
 import com.ptu.common.entity.BaseEntity;
 import com.ptu.domain.member.domain.MemberSocialLogin;
 import com.ptu.domain.member.domain.SocialLoginType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,7 +29,7 @@ public class MemberSocialLoginEntity extends BaseEntity {
   @JoinColumn(name = "member_id")
   private MemberEntity member;
 
-  @OneToOne(fetch = LAZY, mappedBy = "socialLogin")
+  @OneToOne(fetch = LAZY, mappedBy = "socialLogin", cascade = CascadeType.PERSIST)
   private MemberPasswordEntity password;
 
   private String username;

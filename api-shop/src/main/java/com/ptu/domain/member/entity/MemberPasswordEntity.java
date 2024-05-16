@@ -7,6 +7,7 @@ import com.ptu.domain.member.domain.MemberPassword;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "member_password")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MemberPasswordEntity extends BaseEntity {

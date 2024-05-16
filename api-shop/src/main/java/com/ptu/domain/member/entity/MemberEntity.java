@@ -1,5 +1,7 @@
 package com.ptu.domain.member.entity;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import com.ptu.common.entity.BaseEntity;
 import com.ptu.domain.member.domain.Member;
 import com.ptu.domain.member.domain.MemberRole;
@@ -27,7 +29,7 @@ public class MemberEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private MemberRole role;
 
-  @OneToOne(mappedBy = "member")
+  @OneToOne(fetch = LAZY, mappedBy = "member", cascade = CascadeType.PERSIST)
   private MemberProfileEntity memberProfile;
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
