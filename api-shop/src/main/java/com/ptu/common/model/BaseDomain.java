@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public abstract class BaseDomain extends TimeDomain {
 
-  private final Long id;
+  private Long id;
 
   protected BaseDomain(
       final String createId,

@@ -6,15 +6,15 @@ import lombok.Getter;
 @Getter
 public abstract class TimeDomain {
 
-  private final String createId;
+  private String createId;
 
-  private final LocalDateTime createdAt;
+  private LocalDateTime createdAt;
 
-  private final String updateId;
+  private String updateId;
 
-  private final LocalDateTime updatedAt;
+  private LocalDateTime updatedAt;
 
-  private final LocalDateTime deletedAt;
+  private LocalDateTime deletedAt;
 
   protected TimeDomain(
       final String createId,

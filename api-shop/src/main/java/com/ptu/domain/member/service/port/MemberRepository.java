@@ -1,3 +1,8 @@
 package com.ptu.domain.member.service.port;
 
-public interface MemberRepository {}
+import com.ptu.domain.member.entity.MemberEntity;
+
+public interface MemberRepository {
+
+  MemberEntity save(MemberEntity memberEntity);
+}

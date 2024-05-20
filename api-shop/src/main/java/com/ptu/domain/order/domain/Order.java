@@ -1,6 +1,6 @@
 package com.ptu.domain.order.domain;
 
-import com.ptu.common.model.TimeEntity;
+import com.ptu.common.entity.TimeEntity;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

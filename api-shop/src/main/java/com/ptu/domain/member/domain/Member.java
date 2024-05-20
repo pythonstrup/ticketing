@@ -12,6 +12,8 @@ public class Member extends BaseDomain {
 
   private final MemberRole role;
 
+  private final MemberProfile memberProfile;
+
   @Builder // test only
   private Member(
       final String createId,
@@ -20,17 +22,21 @@ public class Member extends BaseDomain {
       final LocalDateTime updatedAt,
       final LocalDateTime deletedAt,
       final Long id,
-      final MemberRole role) {
+      final MemberRole role,
+      final MemberProfile memberProfile) {
     super(createId, createdAt, updateId, updatedAt, deletedAt, id);
     this.role = role;
+    this.memberProfile = memberProfile;
   }
 
-  private Member(final BaseEntity baseEntity, final MemberRole role) {
+  private Member(
+      final BaseEntity baseEntity, final MemberRole role, final MemberProfile memberProfile) {
     super(baseEntity);
     this.role = role;
+    this.memberProfile = memberProfile;
   }
 
   public static Member of(final MemberEntity entity) {
-    return new Member(entity, entity.getRole());
+    return new Member(entity, entity.getRole(), entity.getMemberProfile().toDomain());
   }
 }

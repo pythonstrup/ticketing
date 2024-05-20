@@ -48,4 +48,13 @@ public class MemberPasswordEntity extends BaseEntity {
     this.salt = salt;
     this.password = password;
   }
+
+  public MemberPasswordEntity(final String salt, final String password) {
+    this.salt = salt;
+    this.password = password;
+  }
+
+  public static MemberPasswordEntity empty() {
+    return new MemberPasswordEntity("", "");
+  }
 }

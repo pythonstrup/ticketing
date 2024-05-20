@@ -3,6 +3,7 @@ package com.ptu.domain.member.entity;
 import static jakarta.persistence.FetchType.LAZY;
 
 import com.ptu.common.entity.BaseEntity;
+import com.ptu.domain.auth.domain.OAuth2Info;
 import com.ptu.domain.member.domain.MemberSocialLogin;
 import com.ptu.domain.member.domain.SocialLoginType;
 import jakarta.persistence.CascadeType;
@@ -37,6 +38,8 @@ public class MemberSocialLoginEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private SocialLoginType socialLoginType;
 
+  private LocalDateTime lastLoginAt;
+
   public MemberSocialLogin toDomain() {
     return MemberSocialLogin.of(this);
   }
@@ -58,5 +61,27 @@ public class MemberSocialLoginEntity extends BaseEntity {
     this.password = password;
     this.username = username;
     this.socialLoginType = socialLoginType;
+  }
+
+  public MemberSocialLoginEntity(
+      final MemberPasswordEntity password,
+      final String username,
+      final SocialLoginType socialLoginType,
+      final LocalDateTime lastLoginAt) {
+    this.password = password;
+    this.username = username;
+    this.socialLoginType = socialLoginType;
+    this.lastLoginAt = lastLoginAt;
+  }
+
+  public void updateLastLoginAt(final String username, final LocalDateTime now) {
+    update(username);
+    this.lastLoginAt = now;
+    this.member.updateLastLoginAt(username, now);
+  }
+
+  public static MemberSocialLoginEntity of(final OAuth2Info oAuth2Info, LocalDateTime now) {
+    return new MemberSocialLoginEntity(
+        MemberPasswordEntity.empty(), oAuth2Info.getUsername(), oAuth2Info.getLoginType(), now);
   }
 }
