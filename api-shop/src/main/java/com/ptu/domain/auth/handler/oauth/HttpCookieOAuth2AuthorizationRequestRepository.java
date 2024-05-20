@@ -1,6 +1,5 @@
 package com.ptu.domain.auth.handler.oauth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ptu.common.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,14 +18,10 @@ public class HttpCookieOAuth2AuthorizationRequestRepository
   public static final String REDIRECT_PATH_PARAM_COOKIE_NAME = "redirectPath";
   private static final int cookieExpireSeconds = 180;
 
-  private final ObjectMapper objectMapper;
-
   @Override
   public OAuth2AuthorizationRequest loadAuthorizationRequest(final HttpServletRequest request) {
     return CookieUtils.getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME)
-        .map(
-            cookie ->
-                CookieUtils.deserialize(cookie, OAuth2AuthorizationRequest.class, objectMapper))
+        .map(cookie -> CookieUtils.deserialize(cookie, OAuth2AuthorizationRequest.class))
         .orElse(null);
   }
 

@@ -1,10 +1,11 @@
 package com.ptu.common.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Base64;
 import java.util.Optional;
 import org.springframework.util.SerializationUtils;
@@ -50,11 +51,15 @@ public class CookieUtils {
     return Base64.getUrlEncoder().encodeToString(SerializationUtils.serialize(object));
   }
 
-  public static <T> T deserialize(Cookie cookie, Class<T> cls, final ObjectMapper objectMapper) {
+  public static <T> T deserialize(Cookie cookie, Class<T> cls) {
     byte[] decodedBytes = Base64.getUrlDecoder().decode(cookie.getValue());
     try {
-      return objectMapper.readValue(decodedBytes, cls);
-    } catch (IOException e) {
+      ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
+      ObjectInputStream ois = new ObjectInputStream(bis);
+      Object obj = ois.readObject();
+      return cls.cast(obj);
+    } catch (IOException | ClassNotFoundException e) {
+      e.printStackTrace();
       throw new IllegalArgumentException("Failed to deserialize object", e);
     }
   }
