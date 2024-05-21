@@ -113,7 +113,7 @@ spring:
 api:
   v1: /api/v1
 client:
-  host: http://localhost:3000
+  host: http://localhost:8080
 
 token:
   secret:

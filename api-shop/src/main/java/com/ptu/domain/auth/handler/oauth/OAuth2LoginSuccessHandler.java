@@ -68,7 +68,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   public void onAuthenticationSuccess(
       HttpServletRequest request, HttpServletResponse response, Authentication authentication)
       throws IOException, ServletException {
-
+    log.info("success");
     try {
       OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
       String type = token.getAuthorizedClientRegistrationId();

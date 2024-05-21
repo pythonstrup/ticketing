@@ -14,6 +14,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
@@ -28,6 +29,8 @@ public class SecurityConfig {
       httpCookieOAuth2AuthorizationRequestRepository;
 
   private final AuthenticationFailureHandler oAuth2LoginFailureHandler;
+
+  private final AuthenticationSuccessHandler oAuth2LoginSuccessHandler;
 
   private final LogoutHandler logoutHandler;
   private final LogoutSuccessHandler logoutSuccessHandler;
@@ -53,6 +56,7 @@ public class SecurityConfig {
                                 httpCookieOAuth2AuthorizationRequestRepository))
                 .redirectionEndpoint(redirection -> redirection.baseUri("/oauth2/login/code/*"))
                 .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+                .successHandler(oAuth2LoginSuccessHandler)
                 .failureHandler(oAuth2LoginFailureHandler));
 
     http.logout(
