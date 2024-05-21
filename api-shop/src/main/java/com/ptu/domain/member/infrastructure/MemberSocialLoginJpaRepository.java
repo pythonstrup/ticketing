@@ -10,7 +10,7 @@ public interface MemberSocialLoginJpaRepository extends JpaRepository<MemberSoci
 
   @Query(
       "select msl from MemberSocialLogin msl "
-          + "join fetch msl.member m "
+          + "join fetch msl.member "
           + "where msl.deletedAt is null and msl.username = :username ")
   Optional<MemberSocialLogin> findByUsername(@Param("username") String username);
 }
