@@ -1,21 +1,34 @@
 package com.ptu.domain.member.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import com.ptu.common.entity.BaseEntity;
-import com.ptu.common.model.BaseDomain;
-import com.ptu.domain.member.entity.MemberProfileEntity;
+import com.ptu.domain.auth.domain.OAuth2Info;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "member_profile")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberProfile extends BaseDomain {
+public class MemberProfile extends BaseEntity {
 
-  private final Member member;
-  private final String name;
-  private final String mobile;
+  @OneToOne(fetch = LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
+
+  private String name;
+  private String mobile;
 
   @Builder // test only
-  private MemberProfile(
+  public MemberProfile(
       final String createId,
       final LocalDateTime createdAt,
       final String updateId,
@@ -31,16 +44,19 @@ public class MemberProfile extends BaseDomain {
     this.mobile = mobile;
   }
 
-  public MemberProfile(
-      final BaseEntity baseEntity, final Member member, final String name, final String mobile) {
-    super(baseEntity);
-    this.member = member;
+  public MemberProfile(final String name, final String mobile, final String username) {
     this.name = name;
     this.mobile = mobile;
+    register(username);
   }
 
-  public static MemberProfile of(final MemberProfileEntity entity) {
+  public static MemberProfile of(final OAuth2Info oAuth2Info) {
     return new MemberProfile(
-        entity, entity.getMember().toDomain(), entity.getName(), entity.getMobile());
+        oAuth2Info.getName(), oAuth2Info.getMobile(), oAuth2Info.getUsername());
+  }
+
+  public void setMember(final Member member) {
+    this.member = member;
+    member.setMemberProfile(this);
   }
 }

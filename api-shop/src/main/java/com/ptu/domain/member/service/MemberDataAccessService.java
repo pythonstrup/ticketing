@@ -2,9 +2,8 @@ package com.ptu.domain.member.service;
 
 import com.ptu.common.infrastructure.SystemDateTimeHolder;
 import com.ptu.domain.auth.domain.OAuth2Info;
+import com.ptu.domain.member.domain.Member;
 import com.ptu.domain.member.domain.MemberSocialLogin;
-import com.ptu.domain.member.entity.MemberEntity;
-import com.ptu.domain.member.entity.MemberSocialLoginEntity;
 import com.ptu.domain.member.exception.MemberSocialLoginNotFound;
 import com.ptu.domain.member.service.port.MemberRepository;
 import com.ptu.domain.member.service.port.MemberSocialLoginRepository;
@@ -24,22 +23,22 @@ public class MemberDataAccessService {
   public MemberSocialLogin getSocialLoginByUsername(final String username) {
     return memberSocialLoginRepository
         .findByUsername(username)
-        .orElseThrow(MemberSocialLoginNotFound::new)
-        .toDomain();
+        .orElseThrow(MemberSocialLoginNotFound::new);
   }
 
   @Transactional
   public void updateLastLoginAt(final String username) {
-    MemberSocialLoginEntity memberSocialLoginEntity =
+    MemberSocialLogin memberSocialLogin =
         memberSocialLoginRepository
             .findByUsername(username)
             .orElseThrow(MemberSocialLoginNotFound::new);
-    memberSocialLoginEntity.updateLastLoginAt(username, dateTimeHolder.now());
+    memberSocialLogin.updateLastLoginAt(username, dateTimeHolder.now());
   }
 
+  @Transactional
   public MemberSocialLogin signUp(final OAuth2Info oAuth2Info) {
-    MemberEntity memberEntity = MemberEntity.of(oAuth2Info, dateTimeHolder.now());
-    memberEntity = memberRepository.save(memberEntity);
-    return memberEntity.getSocialLogins().get(0).toDomain();
+    Member member = Member.of(oAuth2Info, dateTimeHolder.now());
+    member = memberRepository.save(member);
+    return member.getSocialLogins().get(0);
   }
 }

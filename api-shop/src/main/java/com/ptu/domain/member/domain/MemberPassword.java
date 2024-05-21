@@ -1,21 +1,34 @@
 package com.ptu.domain.member.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import com.ptu.common.entity.BaseEntity;
-import com.ptu.common.model.BaseDomain;
-import com.ptu.domain.member.entity.MemberPasswordEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "member_password")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberPassword extends BaseDomain {
+public class MemberPassword extends BaseEntity {
 
+  @OneToOne(fetch = LAZY)
+  @JoinColumn(name = "member_social_login_id")
   private MemberSocialLogin socialLogin;
+
   private String salt;
+
   private String password;
 
   @Builder // test only
-  private MemberPassword(
+  public MemberPassword(
       final String createId,
       final LocalDateTime createdAt,
       final String updateId,
@@ -31,19 +44,17 @@ public class MemberPassword extends BaseDomain {
     this.password = password;
   }
 
-  private MemberPassword(
-      final BaseEntity baseEntity,
-      final MemberSocialLogin socialLogin,
-      final String salt,
-      final String password) {
-    super(baseEntity);
-    this.socialLogin = socialLogin;
+  public MemberPassword(final String salt, final String password) {
     this.salt = salt;
     this.password = password;
   }
 
-  public static MemberPassword of(final MemberPasswordEntity entity) {
-    return new MemberPassword(
-        entity, entity.getSocialLogin().toDomain(), entity.getSalt(), entity.getPassword());
+  public static MemberPassword empty() {
+    return new MemberPassword("", "");
+  }
+
+  public void setSocialLogin(final MemberSocialLogin socialLogin) {
+    this.socialLogin = socialLogin;
+    socialLogin.setPassword(this);
   }
 }

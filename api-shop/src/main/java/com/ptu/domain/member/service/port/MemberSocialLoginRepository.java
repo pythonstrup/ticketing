@@ -1,9 +1,9 @@
 package com.ptu.domain.member.service.port;
 
-import com.ptu.domain.member.entity.MemberSocialLoginEntity;
+import com.ptu.domain.member.domain.MemberSocialLogin;
 import java.util.Optional;
 
 public interface MemberSocialLoginRepository {
 
-  Optional<MemberSocialLoginEntity> findByUsername(String username);
+  Optional<MemberSocialLogin> findByUsername(String username);
 }

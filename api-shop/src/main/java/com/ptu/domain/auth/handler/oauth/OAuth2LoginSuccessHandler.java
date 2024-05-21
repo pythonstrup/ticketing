@@ -68,7 +68,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   public void onAuthenticationSuccess(
       HttpServletRequest request, HttpServletResponse response, Authentication authentication)
       throws IOException, ServletException {
-    log.info("success");
     try {
       OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
       String type = token.getAuthorizedClientRegistrationId();
@@ -83,10 +82,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   private void sendJwtTokenOrOAuth2Info(
       HttpServletRequest request, HttpServletResponse response, OAuth2Info oAuth2Info)
       throws IOException, ServletException {
-    String targetUrl = getDefaultTargetUrl();
-    String customerId = oAuth2Info.getLoginType().name() + oAuth2Info.getOAuthId();
     try {
-      UserDetails principal = userDetailsService.loadUserByUsername(customerId);
+      UserDetails principal = userDetailsService.loadUserByUsername(oAuth2Info.getUsername());
       setJwtToken(response, principal);
     } catch (AuthenticationException e) {
       MemberSocialLogin memberSocialLogin = memberDataAccessService.signUp(oAuth2Info);
@@ -94,9 +91,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     } catch (Exception e) {
       throw new AuthenticationServiceException(e.getMessage(), e);
     } finally {
-      targetUrl = determineTargetUrl(request);
+      String defaultTargetUrl = getDefaultTargetUrl();
       clearAuthenticationAttributes(request, response);
-      getRedirectStrategy().sendRedirect(request, response, targetUrl);
+      getRedirectStrategy().sendRedirect(request, response, defaultTargetUrl);
     }
   }
 

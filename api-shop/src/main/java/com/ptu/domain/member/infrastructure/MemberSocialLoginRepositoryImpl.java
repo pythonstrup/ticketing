@@ -1,6 +1,6 @@
 package com.ptu.domain.member.infrastructure;
 
-import com.ptu.domain.member.entity.MemberSocialLoginEntity;
+import com.ptu.domain.member.domain.MemberSocialLogin;
 import com.ptu.domain.member.service.port.MemberSocialLoginRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ public class MemberSocialLoginRepositoryImpl implements MemberSocialLoginReposit
   private final MemberSocialLoginJpaRepository memberSocialLoginJpaRepository;
 
   @Override
-  public Optional<MemberSocialLoginEntity> findByUsername(final String username) {
+  public Optional<MemberSocialLogin> findByUsername(final String username) {
     return memberSocialLoginJpaRepository.findByUsername(username);
   }
 }
